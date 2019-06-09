@@ -7,8 +7,16 @@
 	<groupId>com.ubiquisoft.evaluation</groupId>
 	<artifactId>CarRepairDiagnostics</artifactId>
 	<version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
 
 	<properties>
 	    <maven.compiler.source>1.8</maven.compiler.source>

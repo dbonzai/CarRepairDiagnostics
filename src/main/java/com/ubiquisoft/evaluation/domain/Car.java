@@ -3,6 +3,7 @@ package com.ubiquisoft.evaluation.domain;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,25 +14,42 @@ public class Car {
 	private String year;
 	private String make;
 	private String model;
-
 	private List<Part> parts;
 
+	/**
+	 * Check off missing parts that are currently on the car
+	 * @return map of part types and quantities that are missing
+	 */
 	public Map<PartType, Integer> getMissingPartsMap() {
-		/*
-		 * Return map of the part types missing.
-		 *
-		 * Each car requires one of each of the following types:
-		 *      ENGINE, ELECTRICAL, FUEL_FILTER, OIL_FILTER
-		 * and four of the type: TIRE
-		 *
-		 * Example: a car only missing three of the four tires should return a map like this:
-		 *
-		 *      {
-		 *          "TIRE": 3
-		 *      }
-		 */
 
-		return null;
+		Map<PartType, Integer> requiredParts = defineRequiredParts();
+
+		if (this.getParts() == null || this.getParts().isEmpty()) {
+			return requiredParts;
+		} else {
+			for (Part part : this.getParts()) {
+				PartType partType = part.getType();
+
+				if (requiredParts.get(partType) > 1) {
+					requiredParts.put(partType, requiredParts.get(partType) - 1);
+				} else {
+					requiredParts.remove(partType);
+				}
+			}
+		}
+
+		return requiredParts;
+	}
+
+	private Map<PartType, Integer> defineRequiredParts() {
+		Map<PartType, Integer> requiredParts = new HashMap<>();
+		requiredParts.put(PartType.ENGINE, 1);
+		requiredParts.put(PartType.ELECTRICAL, 1);
+		requiredParts.put(PartType.FUEL_FILTER, 1);
+		requiredParts.put(PartType.OIL_FILTER, 1);
+		requiredParts.put(PartType.TIRE, 4);
+
+		return requiredParts;
 	}
 
 	@Override
